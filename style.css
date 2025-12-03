@@ -1,0 +1,85 @@
+:root{
+  --bg:#f2f3f7;
+  --card:#fff;
+  --accent:#3c40c6;
+  --text:#222;
+  --muted:#666;
+  --present:#d4f8d4;
+  --absent:#ffd6d6;
+  --permission:#fff4c2;
+}
+
+/* DARK THEME */
+[data-theme="dark"]{
+  --bg:#0f1724;
+  --card:#0b1220;
+  --accent:#6b7bff;
+  --text:#e6eef8;
+  --muted:#9fb0d1;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter, "Segoe UI", Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+}
+
+/* SPLASH */
+.splash{
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#3c40c6,#575fcf);
+  color:#fff; z-index:9999; transition:opacity .4s ease;
+}
+.splash.hidden{opacity:0; pointer-events:none; transform:scale(.99)}
+.splash-content{ text-align:center }
+.splash-logo{ width:90px; height:90px; border-radius:18px; background:white; padding:10px; }
+
+/* TOPBAR */
+.topbar{ display:flex; justify-content:space-between; align-items:center; padding:14px; background:linear-gradient(135deg,var(--accent),#6a6fe8); color:#fff; gap:10px; }
+.topbar h2{ margin:0; font-size:18px }
+.topbar p{ margin:0; font-size:13px; opacity:.95 }
+.topbar .right button{ margin-left:8px; padding:8px 10px; border-radius:8px; border:none; cursor:pointer; }
+
+/* LOGIN */
+.login-box{ padding:12px; text-align:center; }
+.login-box input{ width:92%; padding:12px; border-radius:10px; border:1px solid rgba(0,0,0,.08); }
+
+/* MEMBER CARD */
+main{ padding-bottom:80px; }
+.card{ background:var(--card); margin:14px; padding:14px; border-radius:12px; box-shadow:0 6px 18px rgba(20,20,40,0.06); display:grid; grid-template-columns: 1fr auto; gap:10px; align-items:center; }
+.card h3{ margin:0; font-size:16px }
+.card .meta{ font-size:13px; color:var(--muted) }
+
+/* status badge */
+.status{ display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; margin-top:6px; }
+.status.present{ background:var(--present); color:#0a6d0a }
+.status.absent{ background:var(--absent); color:#c40808 }
+.status.permission{ background:var(--permission); color:#8a6d00 }
+
+/* boutons */
+.card .controls{ display:flex; flex-direction:column; gap:8px; align-items:center; }
+.btn{ padding:8px 12px; border-radius:10px; border:none; cursor:pointer; color:white; font-weight:700; width:110px }
+.btn-present{ background:#2ecc71 }
+.btn-absent{ background:#e74c3c }
+.btn-permission{ background:#f1c40f; color:#111 }
+
+/* footer actions */
+.actions-footer{ position:fixed; bottom:12px; left:12px; right:12px; display:flex; justify-content:space-between; gap:8px; }
+#addMember, #resetData{ padding:10px 14px; border-radius:10px; border:none; background:#3c40c6; color:white; cursor:pointer }
+#resetData.danger{ background:#d64545 }
+
+/* modal */
+.modal{ position:fixed; inset:0; background:rgba(0,0,0,0.45); display:flex; align-items:center; justify-content:center; z-index:1200; }
+.modal.hidden{ display:none }
+.modal-card{ background:var(--card); padding:18px; border-radius:12px; width:92%; max-width:380px }
+.modal-card input{ width:100%; padding:10px; margin-top:8px; border-radius:8px; border:1px solid #ddd }
+.modal-actions{ display:flex; justify-content:flex-end; gap:8px; margin-top:10px }
+
+/* responsive */
+@media(min-width:720px){
+  .card{ margin:18px 120px; }
+  .actions-footer{ left:40%; right:40%; }
+}
