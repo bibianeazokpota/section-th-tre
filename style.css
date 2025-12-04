@@ -1,6 +1,6 @@
 :root {
-  --bg: #f2f3f7;
-  --card: #fff;
+  --bg: lch(95.87% 2.08 280.72);
+  --card: hsl(0, 0%, 100%);
   --accent: #6bff9c;
   --text: #222;
   --muted: #666;
@@ -132,7 +132,7 @@ button:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #6bff9c, #a8ffcf);
+  background: linear-gradient(135deg, #6bff9c, #b2f7c2);
   color: #fff;
   z-index: 9999;
   transition: opacity .4s;
@@ -156,7 +156,7 @@ button:hover {
   justify-content: space-between;
   align-items: center;
   padding: 12px 20px;
-  background: linear-gradient(135deg, var(--accent), #a8ffcf);
+  background: linear-gradient(135deg, var(--accent), #b2f7c2);
   color: #fff;
   flex-wrap: wrap;
   gap: 10px;
