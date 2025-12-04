@@ -43,11 +43,13 @@
       <hr>
 
       <h3>Vérifier un code</h3>
-      <input id="codeToCheck" type="password" placeholder="Entrez un code">
-      <button onclick="toggleVisibility('codeToCheck')">👁️</button>
-      <button onclick="checkCode()">Vérifier</button>
-      <p id="result"></p>
-    </div>
+<div class="input-wrapper">
+  <input id="codeToCheck" type="password" placeholder="Entrez un code">
+  <button type="button" onclick="toggleVisibility('codeToCheck')" class="eye-btn">👁️</button>
+</div>
+<button onclick="checkCode()">Vérifier</button>
+<p id="result"></p>
+
 
     <!-- MENU PAGES -->
     <div class="pages-menu">
