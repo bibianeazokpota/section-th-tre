@@ -38,8 +38,10 @@ function hideBanner() {
 // ===============================
 let deferredPrompt = null;
 window.addEventListener('beforeinstallprompt', (e) => {
+  console.log('beforeinstallprompt event received', e);
   e.preventDefault();
   deferredPrompt = e;
+  showBanner('Installation disponible — cliquez sur Installer', 'info', 3500);
   const btn = document.getElementById('installBtn');
   if (btn) btn.classList.remove('hidden');
 });
@@ -48,7 +50,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const installBtn = document.getElementById('installBtn');
   if (installBtn) {
     installBtn.addEventListener('click', async () => {
-      if (!deferredPrompt) return showBanner('Installation indisponible', 'error');
+      if (!deferredPrompt) {
+        // diagnostics
+        const reasons = [];
+        if (location.protocol !== 'https:' && location.hostname !== 'localhost') reasons.push('Non servi en HTTPS');
+        if (!('serviceWorker' in navigator)) reasons.push('Service Worker non supporté');
+        else {
+          try {
+            const regs = await navigator.serviceWorker.getRegistrations();
+            if (!regs || regs.length === 0) reasons.push('Service Worker non enregistré');
+          } catch (e) { console.warn('Erreur vérif SW', e); reasons.push('Impossible de vérifier Service Worker'); }
+        }
+        try {
+          const res = await fetch('manifest.json', {cache: 'no-store'});
+          if (!res.ok) reasons.push('manifest.json manquant ou inaccessible');
+          else {
+            try { const mf = await res.json(); if (!mf || !mf.icons) reasons.push('Manifest: icônes manquantes'); } catch(e){ reasons.push('Manifest invalide'); }
+          }
+        } catch(e){ reasons.push('Impossible de charger manifest.json'); }
+
+        const message = 'Installation indisponible: ' + (reasons.length ? reasons.join(' • ') : 'Aucun prompt reçu par le navigateur');
+        console.warn('PWA install diagnostics:', reasons);
+        showBanner(message, 'error', 7000);
+        return;
+      }
+
       deferredPrompt.prompt();
       const choice = await deferredPrompt.userChoice;
       if (choice.outcome === 'accepted') showBanner('Installation acceptée', 'success', 2000);
