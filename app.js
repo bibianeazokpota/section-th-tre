@@ -206,13 +206,13 @@ function reloadPage() {
   if (!pagesData[currentPage]) pagesData[currentPage] = {};
   data = pagesData[currentPage];
   document.getElementById("pageLabel").innerText = "Page " + currentPage;
-  render();
-  loadPages();
-    container.innerHTML = "";
-
-    // notebook wrapper
-    const nb = document.createElement('div');
-    nb.className = 'notebook';
+  
+  const container = document.getElementById('members');
+  container.innerHTML = '';
+  
+  // notebook wrapper
+  const nb = document.createElement('div');
+  nb.className = 'notebook';
 
     membres.forEach((nom, i) => {
       const d = data[nom] || {};
@@ -265,6 +265,7 @@ function reloadPage() {
     });
 
     container.appendChild(nb);
+    loadPages();
 }
 
 // ===============================
@@ -408,8 +409,19 @@ function _removeMemberRolesFor(nom) {
 // ROLE / POSITION
 // ===============================
 function roleOptions(selected) {
-  const opts = ["Membre","Secrétaire","TCM","Chef de section","Autre"];
+  const opts = ["Membre","Ss","TCM","Cs","Autre"];
   return opts.map(o=>`<option value="${o}" ${o===selected? 'selected':''}>${o}</option>`).join('');
+}
+
+async function login(password) {
+  const h = await sha256(password);
+  const superHash = localStorage.getItem('SUPER_HASH');
+  const adminHash = localStorage.getItem('ADMIN_HASH');
+
+  if (h === superHash) return 'super';
+  if (h === adminHash) return 'admin';
+
+  return 'refusé';
 }
 
 async function setRole(nom, role) {
@@ -423,6 +435,19 @@ async function setRole(nom, role) {
   // refresh UI to show updated badge if any
   reloadPage();
 }
+function formatDateTime(date) {
+  const d = new Date(date);
+
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+
+  const hours = String(d.getHours()).padStart(2, '0');
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
+
 
 // ===============================
 // SET STATUS
